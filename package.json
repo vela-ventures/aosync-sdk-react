@@ -1,5 +1,5 @@
 {
-  "name": "aosync-sdk-react-test",
+  "name": "@vela-ventures/aosync-sdk-react",
   "version": "1.0.0",
   "main": "dist/index.js",
   "files": [
@@ -14,9 +14,12 @@
   "scripts": {
     "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": {
+    "name": "vela-ventures",
+    "email": "admin@vela.ventures",
+    "url": "https://vela.ventures/"
+  },
+  "description": "React SDK for Beacon wallet",
   "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.0",
@@ -31,6 +34,10 @@
     "react-dom": "^19.0.0",
     "typescript": "^5.7.3"
   },
+  "license": "MIT",
+  "contributors": [
+    "Artem Purundzhian <artempa1607@gmail.com>"
+  ],
   "peerDependencies": {
     "react": "^18.2.0"
   }
