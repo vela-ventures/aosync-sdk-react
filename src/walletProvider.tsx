@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import WalletClient from "@vela-ventures/ao-sync-sdk";
 import Arweave from "arweave";
 import { DataItem } from "arconnect";
 import Transaction from "arweave/web/lib/transaction";
 
-interface UseAOWalletReturn {
+interface WalletContextValue {
   isConnected: boolean;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
@@ -19,7 +19,11 @@ interface UseAOWalletReturn {
   sign: (transaction: Transaction) => Promise<Transaction>;
 }
 
-export const useWallet = (): UseAOWalletReturn => {
+const WalletContext = createContext<WalletContextValue | null>(null);
+
+export const WalletProvider: ({ children, }: { children: any; }) => React.JSX.Element = ({
+  children,
+}) => {
   const [isConnected, setIsConnected] = useState(false);
   const walletRef = useRef(new WalletClient());
 
@@ -71,7 +75,7 @@ export const useWallet = (): UseAOWalletReturn => {
     try {
       return await walletRef.current.getAllAddresses();
     } catch (error) {
-      console.error("Error getting address:", error);
+      console.error("Error getting addresses:", error);
       throw error;
     }
   };
@@ -146,14 +150,28 @@ export const useWallet = (): UseAOWalletReturn => {
     }
   };
 
-  return {
-    isConnected,
-    connect,
-    disconnect,
-    getAddress,
-    getAllAddresses,
-    sendAR,
-    signAOMessage,
-    sign,
-  };
+  return (
+    <WalletContext.Provider
+      value={{
+        isConnected,
+        connect,
+        disconnect,
+        getAllAddresses,
+        getAddress,
+        sendAR,
+        signAOMessage,
+        sign,
+      }}
+    >
+      {children}
+    </WalletContext.Provider>
+  );
+};
+
+export const useWallet = (): WalletContextValue => {
+  const context = useContext(WalletContext);
+  if (!context) {
+    throw new Error("useWallet must be used within a WalletProvider");
+  }
+  return context;
 };
