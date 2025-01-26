@@ -1,6 +1,6 @@
 {
   "name": "@vela-ventures/aosync-sdk-react",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -27,7 +27,6 @@
     "@babel/preset-react": "^7.26.3",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
-    "@vela-ventures/ao-sync-sdk": "^1.1.9",
     "arconnect": "^1.0.4",
     "arweave": "^1.15.5",
     "react": "^19.0.0",
@@ -40,5 +39,8 @@
   ],
   "peerDependencies": {
     "react": "^18.2.0"
+  },
+  "dependencies": {
+    "@vela-ventures/ao-sync-sdk": "^1.1.9"
   }
 }
