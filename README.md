@@ -14,18 +14,18 @@ A lightweight React hook and context provider for integrating the Beacon Wallet 
 Install the package via npm:
 
 ```bash
-npm install @vela-ventures/ao-sync-sdk
+npm install @vela-ventures/aosync-sdk-react
 ```
 
 ## Usage
 
 ### 1: Wrap Your App with WalletProvider
 
-To enable wallet functionality across your app, wrap your application with the WalletProvider:
+To enable wallet functionality across your app, wrap your application with the AOSyncProvider:
 
 ```javascript
 import React from "react";
-import { AOSyncProvider } from "@vela-ventures/ao-sync-sdk";
+import { AOSyncProvider } from "@vela-ventures/aosync-sdk-react";
 
 const App = () => {
   return (
@@ -49,7 +49,7 @@ Access wallet functionality in any component with the useWallet hook:
 
 ```javascript
 import React from "react";
-import { useWallet } from "@vela-ventures/ao-sync-sdk";
+import { useWallet } from "@vela-ventures/aosync-sdk-react";
 
 const WalletComponent = () => {
   const { isConnected, connect, disconnect, getAddress, sendAR } = useWallet();
