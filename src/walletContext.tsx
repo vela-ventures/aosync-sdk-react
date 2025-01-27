@@ -49,7 +49,6 @@ export function AOSyncProvider({
     try {
       await walletRef.current.connect({
         gateway: gatewayConfig,
-        brokerUrl: 'wss://aosync-broker-eu.beaconwallet.dev:8081'
       });
     } catch (error) {
       console.error("Error connecting wallet:", error);
