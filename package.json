@@ -33,6 +33,25 @@
     "react-dom": "^19.0.0",
     "typescript": "^5.7.3"
   },
+  "keywords": [
+    "arweave",
+    "arweave-js",
+    "arweave-sdk",
+    "ao",
+    "ao-sync",
+    "ao-sync-react",
+    "aosync-react",
+    "ao-sync-sdk",
+    "becon",
+    "beacon-wallet",
+    "react",
+    "web3",
+    "wallet",
+    "sdk",
+    "vela-ventures",
+    "wallet-sdk",
+    "@vela-ventures"
+  ],
   "license": "MIT",
   "contributors": [
     "Artem Purundzhian <artempa1607@gmail.com>"
