@@ -33,6 +33,11 @@
     "react-dom": "^19.0.0",
     "typescript": "^5.7.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vela-ventures/aosync-sdk-react.git"
+  },
+  "homepage": "https://github.com/vela-ventures/aosync-sdk-react",
   "keywords": [
     "arweave",
     "arweave-js",
