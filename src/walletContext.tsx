@@ -7,7 +7,7 @@ import React, {
   PropsWithChildren,
 } from "react";
 import Arweave from "arweave";
-import { DataItem } from "arconnect";
+import { DataItem, GatewayConfig } from "arconnect";
 import WalletClient from "@vela-ventures/ao-sync-sdk";
 import { AOSyncSDKContext } from "./types";
 import Transaction from "arweave/web/lib/transaction";
@@ -17,11 +17,15 @@ export const AOSyncContext = createContext<AOSyncSDKContext | undefined>(
 );
 
 interface Props extends PropsWithChildren {
-  arweaveHost: string;
+  gatewayConfig: GatewayConfig;
   muUrl: string;
 }
 
-export function AOSyncProvider({ arweaveHost, muUrl, children }: Props) {
+export function AOSyncProvider({
+  gatewayConfig = { host: "arweave.net", port: 443, protocol: "https" },
+  muUrl = "https://mu.ao-testnet.xyz",
+  children,
+}: Props) {
   const [isConnected, setIsConnected] = useState(false);
   const walletRef = useRef(new WalletClient());
 
@@ -43,7 +47,9 @@ export function AOSyncProvider({ arweaveHost, muUrl, children }: Props) {
 
   const connect = async () => {
     try {
-      await walletRef.current.connect({});
+      await walletRef.current.connect({
+        gateway: gatewayConfig,
+      });
     } catch (error) {
       console.error("Error connecting wallet:", error);
       throw error;
@@ -80,11 +86,7 @@ export function AOSyncProvider({ arweaveHost, muUrl, children }: Props) {
 
   const sendAR = async (recipient: string, quantity: string) => {
     try {
-      const arweave = Arweave.init({
-        host: arweaveHost,
-        port: 443,
-        protocol: "https",
-      });
+      const arweave = Arweave.init(gatewayConfig);
 
       const tx = await arweave.createTransaction({
         target: recipient,

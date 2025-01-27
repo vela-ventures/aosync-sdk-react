@@ -20,33 +20,39 @@ npm install @vela-ventures/ao-sync-sdk
 ## Usage
 
 ### 1: Wrap Your App with WalletProvider
+
 To enable wallet functionality across your app, wrap your application with the WalletProvider:
+
 ```javascript
 import React from "react";
 import { AOSyncProvider } from "@vela-ventures/ao-sync-sdk";
 
 const App = () => {
   return (
-    <AOSyncProvider arweaveHost='arweave.net' muUrl='https://mu.ao-testnet.xyz'>
+    <AOSyncProvider
+      gatewayConfig={{
+        host: "arweave.net",
+        port: 443,
+        protocol: "https",
+      }}
+      muUrl="https://mu.ao-testnet.xyz"
+    >
       <YourApp />
     </AOSyncProvider>
   );
 };
 ```
+
 ### 2. Use the useWallet Hook
+
 Access wallet functionality in any component with the useWallet hook:
+
 ```javascript
 import React from "react";
 import { useWallet } from "@vela-ventures/ao-sync-sdk";
 
 const WalletComponent = () => {
-  const {
-    isConnected,
-    connect,
-    disconnect,
-    getAddress,
-    sendAR,
-  } = useWallet();
+  const { isConnected, connect, disconnect, getAddress, sendAR } = useWallet();
 
   const handleConnect = async () => {
     await connect();
@@ -78,24 +84,24 @@ const WalletComponent = () => {
 
 export default WalletComponent;
 ```
+
 ## API
 
 ### `useWallet`
 
 The `useWallet` hook provides the following methods and properties:
 
-| Method/Property          | Description                                                                 |
-|--------------------------|-----------------------------------------------------------------------------|
-| `isConnected`            | Boolean indicating if the wallet is connected.                              |
-| `connect()`              | Connects to the wallet.                                                     |
-| `disconnect()`           | Disconnects from the wallet.                                                |
-| `getAddress()`           | Returns the currently active wallet address.                                |
-| `getAllAddresses()`      | Returns all wallet addresses.                                               |
-| `sendAR(recipient, quantity)` | Sends AR to the specified address.                                     |
-| `sign(transaction)`      | Signs a transaction using the wallet.                                       |
-| `signAOMessage(target, recipient, quantity)` | Signs a custom AO message.                              |
+| Method/Property                              | Description                                    |
+| -------------------------------------------- | ---------------------------------------------- |
+| `isConnected`                                | Boolean indicating if the wallet is connected. |
+| `connect()`                                  | Connects to the wallet.                        |
+| `disconnect()`                               | Disconnects from the wallet.                   |
+| `getAddress()`                               | Returns the currently active wallet address.   |
+| `getAllAddresses()`                          | Returns all wallet addresses.                  |
+| `sendAR(recipient, quantity)`                | Sends AR to the specified address.             |
+| `sign(transaction)`                          | Signs a transaction using the wallet.          |
+| `signAOMessage(target, recipient, quantity)` | Signs a custom AO message.                     |
 
 ## License
 
 MIT License © 2025 Vela Ventures
-
