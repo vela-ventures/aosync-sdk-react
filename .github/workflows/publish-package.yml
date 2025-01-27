@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm ci
-          npm run build -- --watch=false
+          npm run build
 
       - name: Publish
         run: npm publish
