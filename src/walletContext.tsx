@@ -103,18 +103,15 @@ export function AOSyncProvider({
 
   const signAOMessage = async (
     target: string,
-    recipient: string,
-    quantity: string,
-    tags: { name: string; value: string }[]
+    tags: { name: string; value: string }[],
+    data: string
   ) => {
     try {
       const dataItem: DataItem = {
-        data: "",
+        data: data,
         target,
         tags: [
           { name: "Action", value: "Transfer" },
-          { name: "Recipient", value: recipient },
-          { name: "Quantity", value: quantity },
           { name: "SDK", value: "Beacon Wallet" },
           { name: "Data-Protocol", value: "ao" },
           { name: "Variant", value: "ao.TN.1" },
