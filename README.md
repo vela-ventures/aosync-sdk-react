@@ -100,7 +100,7 @@ The `useWallet` hook provides the following methods and properties:
 | `getAllAddresses()`                                | Returns all wallet addresses.                  |
 | `sendAR(recipient, quantity)`                      | Sends AR to the specified address.             |
 | `sign(transaction)`                                | Signs a transaction using the wallet.          |
-| `signAOMessage(target, recipient, quantity, tags)` | Signs a custom AO message.                     |
+| `signAOMessage(target, tags, data)`                | Signs an ANS-104 Data Item.                    |
 
 ## License
 
