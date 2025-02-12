@@ -104,7 +104,8 @@ export function AOSyncProvider({
   const signAOMessage = async (
     target: string,
     recipient: string,
-    quantity: string
+    quantity: string,
+    tags: { name: string; value: string }[]
   ) => {
     try {
       const dataItem: DataItem = {
@@ -118,6 +119,7 @@ export function AOSyncProvider({
           { name: "Data-Protocol", value: "ao" },
           { name: "Variant", value: "ao.TN.1" },
           { name: "Type", value: "Message" },
+          ...tags,
         ],
       };
 
