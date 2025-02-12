@@ -91,16 +91,16 @@ export default WalletComponent;
 
 The `useWallet` hook provides the following methods and properties:
 
-| Method/Property                              | Description                                    |
-| -------------------------------------------- | ---------------------------------------------- |
-| `isConnected`                                | Boolean indicating if the wallet is connected. |
-| `connect()`                                  | Connects to the wallet.                        |
-| `disconnect()`                               | Disconnects from the wallet.                   |
-| `getAddress()`                               | Returns the currently active wallet address.   |
-| `getAllAddresses()`                          | Returns all wallet addresses.                  |
-| `sendAR(recipient, quantity)`                | Sends AR to the specified address.             |
-| `sign(transaction)`                          | Signs a transaction using the wallet.          |
-| `signAOMessage(target, recipient, quantity)` | Signs a custom AO message.                     |
+| Method/Property                                    | Description                                    |
+| -------------------------------------------------- | ---------------------------------------------- |
+| `isConnected`                                      | Boolean indicating if the wallet is connected. |
+| `connect()`                                        | Connects to the wallet.                        |
+| `disconnect()`                                     | Disconnects from the wallet.                   |
+| `getAddress()`                                     | Returns the currently active wallet address.   |
+| `getAllAddresses()`                                | Returns all wallet addresses.                  |
+| `sendAR(recipient, quantity)`                      | Sends AR to the specified address.             |
+| `sign(transaction)`                                | Signs a transaction using the wallet.          |
+| `signAOMessage(target, recipient, quantity, tags)` | Signs a custom AO message.                     |
 
 ## License
 
