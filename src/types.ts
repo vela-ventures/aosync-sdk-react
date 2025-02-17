@@ -1,3 +1,4 @@
+import { DataItem } from "arconnect";
 import Transaction from "arweave/web/lib/transaction";
 
 export interface AOSyncSDKContext {
@@ -11,6 +12,9 @@ export interface AOSyncSDKContext {
     target: string,
     tags: { name: string; value: string }[],
     data: string
+  ) => Promise<any>;
+  signAODataItem: (
+    dataItem: DataItem
   ) => Promise<any>;
   sign: (transaction: Transaction) => Promise<Transaction>;
 }
