@@ -101,6 +101,31 @@ export function AOSyncProvider({
     }
   };
 
+  const signAODataItem = async (
+    dataItem: DataItem
+  ) => {
+    try {
+
+      const signedDataItem = await walletRef.current.signDataItem(dataItem);
+      const response = await fetch(muUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+        body: signedDataItem,
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return signedDataItem;
+    } catch (error) {
+      console.error("Error signing AO message:", error);
+      throw error;
+    }
+  };
+
   const signAOMessage = async (
     target: string,
     tags: { name: string; value: string }[],
@@ -159,6 +184,7 @@ export function AOSyncProvider({
         getAllAddresses,
         sendAR,
         signAOMessage,
+        signAODataItem,
         sign,
       }}
     >

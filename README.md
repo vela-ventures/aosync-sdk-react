@@ -91,16 +91,17 @@ export default WalletComponent;
 
 The `useWallet` hook provides the following methods and properties:
 
-| Method/Property                                    | Description                                    |
-| -------------------------------------------------- | ---------------------------------------------- |
-| `isConnected`                                      | Boolean indicating if the wallet is connected. |
-| `connect()`                                        | Connects to the wallet.                        |
-| `disconnect()`                                     | Disconnects from the wallet.                   |
-| `getAddress()`                                     | Returns the currently active wallet address.   |
-| `getAllAddresses()`                                | Returns all wallet addresses.                  |
-| `sendAR(recipient, quantity)`                      | Sends AR to the specified address.             |
-| `sign(transaction)`                                | Signs a transaction using the wallet.          |
-| `signAOMessage(target, tags, data)`                | Signs an ANS-104 Data Item.                    |
+| Method/Property                     | Description                                    |
+| ----------------------------------- | ---------------------------------------------- |
+| `isConnected`                       | Boolean indicating if the wallet is connected. |
+| `connect()`                         | Connects to the wallet.                        |
+| `disconnect()`                      | Disconnects from the wallet.                   |
+| `getAddress()`                      | Returns the currently active wallet address.   |
+| `getAllAddresses()`                 | Returns all wallet addresses.                  |
+| `sendAR(recipient, quantity)`       | Sends AR to the specified address.             |
+| `sign(transaction)`                 | Signs a transaction using the wallet.          |
+| `signAOMessage(target, tags, data)` | Signs an ANS-104 Data Item.                    |
+| `signAODataItem(dataItem)`          | Signs an ANS-104 Data Item.                    |
 
 ## License
 
