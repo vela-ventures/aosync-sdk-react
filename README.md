@@ -35,6 +35,7 @@ const App = () => {
         port: 443,
         protocol: "https",
       }}
+      appInfo={{ name: "App name" }}
       muUrl="https://mu.ao-testnet.xyz"
     >
       <YourApp />
