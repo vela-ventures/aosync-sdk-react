@@ -9,11 +9,6 @@ export interface AOSyncSDKContext {
   getAddress: () => Promise<string | undefined>;
   sendAR: (recipient: string, quantity: string) => Promise<any>;
   signAOMessage: (
-    target: string,
-    tags: { name: string; value: string }[],
-    data: string
-  ) => Promise<any>;
-  signAODataItem: (
     dataItem: DataItem
   ) => Promise<any>;
   sign: (transaction: Transaction) => Promise<Transaction>;

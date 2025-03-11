@@ -104,47 +104,8 @@ export function AOSyncProvider({
     }
   };
 
-  const signAODataItem = async (dataItem: DataItem) => {
+  const signAOMessage = async (dataItem: DataItem) => {
     try {
-      const signedDataItem = await walletRef.current.signDataItem(dataItem);
-      const response = await fetch(muUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-        body: signedDataItem,
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      return signedDataItem;
-    } catch (error) {
-      console.error("Error signing AO message:", error);
-      throw error;
-    }
-  };
-
-  const signAOMessage = async (
-    target: string,
-    tags: { name: string; value: string }[],
-    data: string
-  ) => {
-    try {
-      const dataItem: DataItem = {
-        data: data,
-        target,
-        tags: [
-          { name: "Action", value: "Transfer" },
-          { name: "SDK", value: "Beacon Wallet" },
-          { name: "Data-Protocol", value: "ao" },
-          { name: "Variant", value: "ao.TN.1" },
-          { name: "Type", value: "Message" },
-          ...tags,
-        ],
-      };
-
       const signedDataItem = await walletRef.current.signDataItem(dataItem);
       const response = await fetch(muUrl, {
         method: "POST",
@@ -184,7 +145,6 @@ export function AOSyncProvider({
         getAllAddresses,
         sendAR,
         signAOMessage,
-        signAODataItem,
         sign,
       }}
     >
