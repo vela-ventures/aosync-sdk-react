@@ -106,6 +106,12 @@ export function AOSyncProvider({
 
   const signAOMessage = async (dataItem: DataItem) => {
     try {
+      dataItem?.tags?.push(
+        { name: "SDK", value: "Beacon Wallet" },
+        { name: "Data-Protocol", value: "ao" },
+        { name: "Variant", value: "ao.TN.1" },
+        { name: "Type", value: "Message" }
+      )
       const signedDataItem = await walletRef.current.signDataItem(dataItem);
       const response = await fetch(muUrl, {
         method: "POST",
