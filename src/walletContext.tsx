@@ -125,12 +125,26 @@ export function AOSyncProvider({
         throw new Error("Network response was not ok");
       }
 
-      return signedDataItem;
+      return await extractAndHashId(signedDataItem);
     } catch (error) {
       console.error("Error signing AO message:", error);
       throw error;
     }
   };
+
+  async function extractAndHashId(byteArray: ArrayBuffer): Promise<string> {
+    const idBytes = byteArray.slice(2, 2 + 512);
+    
+    const hashBuffer = await crypto.subtle.digest('SHA-256', idBytes);
+    
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashBase64 = btoa(String.fromCharCode.apply(null, hashArray))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+    
+    return hashBase64;
+  }
 
   const sign = async (transaction: Transaction) => {
     try {
