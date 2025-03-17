@@ -65,6 +65,6 @@
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@vela-ventures/ao-sync-sdk": "^1.1.13"
+    "@vela-ventures/ao-sync-sdk": "workspace:*"
   }
 }
