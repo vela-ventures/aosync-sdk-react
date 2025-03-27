@@ -28,8 +28,10 @@ export function AOSyncProvider({
   children,
   appInfo,
 }: Props) {
-  const [isConnected, setIsConnected] = useState(false);
   const walletRef = useRef(new WalletClient());
+  const [isConnected, setIsConnected] = useState(
+    !!sessionStorage.getItem("aosync-topic-id")
+  );
 
   useEffect(() => {
     const wallet = walletRef.current;
@@ -111,7 +113,7 @@ export function AOSyncProvider({
         { name: "Data-Protocol", value: "ao" },
         { name: "Variant", value: "ao.TN.1" },
         { name: "Type", value: "Message" }
-      )
+      );
       const signedDataItem = await walletRef.current.signDataItem(dataItem);
       const response = await fetch(muUrl, {
         method: "POST",
@@ -134,15 +136,15 @@ export function AOSyncProvider({
 
   async function extractAndHashId(byteArray: ArrayBuffer): Promise<string> {
     const idBytes = byteArray.slice(2, 2 + 512);
-    
-    const hashBuffer = await crypto.subtle.digest('SHA-256', idBytes);
-    
+
+    const hashBuffer = await crypto.subtle.digest("SHA-256", idBytes);
+
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashBase64 = btoa(String.fromCharCode.apply(null, hashArray))
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
-    
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+
     return hashBase64;
   }
 
