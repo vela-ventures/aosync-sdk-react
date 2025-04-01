@@ -29,9 +29,7 @@ export function AOSyncProvider({
   appInfo,
 }: Props) {
   const walletRef = useRef(new WalletClient());
-  const [isConnected, setIsConnected] = useState(
-    !!sessionStorage.getItem("aosync-topic-id")
-  );
+  const [isConnected, setIsConnected] = useState(!!walletRef?.current?.uid);
 
   useEffect(() => {
     const wallet = walletRef.current;
