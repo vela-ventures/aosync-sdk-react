@@ -3,6 +3,7 @@ import Transaction from "arweave/web/lib/transaction";
 
 export interface AOSyncSDKContext {
   isConnected: boolean;
+  isSessionActive: boolean;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   getAllAddresses: () => Promise<string[]>;

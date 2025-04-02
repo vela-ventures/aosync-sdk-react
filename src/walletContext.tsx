@@ -30,6 +30,13 @@ export function AOSyncProvider({
 }: Props) {
   const walletRef = useRef(new WalletClient());
   const [isConnected, setIsConnected] = useState(!!walletRef?.current?.uid);
+  const [isSessionActive, setIsSessionActive] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const sessionValue = sessionStorage.getItem("aosync-session-active");
+      return sessionValue ? JSON.parse(sessionValue) : false;
+    }
+    return false;
+  });
 
   useEffect(() => {
     const wallet = walletRef.current;
@@ -44,6 +51,21 @@ export function AOSyncProvider({
     return () => {
       wallet.off("disconnected", handleDisconnect);
       wallet.off("connected", handleConnect);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "aosync-session-active" && event.storageArea === sessionStorage) {
+        const newValue = event.newValue ? JSON.parse(event.newValue) : false;
+        setIsSessionActive(newValue);
+      }
+    };
+  
+    window.addEventListener("storage", handleStorageChange);
+  
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -159,6 +181,7 @@ export function AOSyncProvider({
     <AOSyncContext.Provider
       value={{
         isConnected,
+        isSessionActive,
         connect,
         disconnect,
         getAddress,
