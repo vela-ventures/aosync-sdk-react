@@ -126,7 +126,7 @@ export function AOSyncProvider({
     }
   };
 
-  const signAOMessage = async (dataItem: DataItem) => {
+  const signAOMessage = async (dataItem: DataItem): Promise<string> => {
     try {
       dataItem?.tags?.push(
         { name: "SDK", value: "Beacon Wallet" },
