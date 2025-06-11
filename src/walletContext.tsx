@@ -56,14 +56,17 @@ export function AOSyncProvider({
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === "aosync-session-active" && event.storageArea === sessionStorage) {
+      if (
+        event.key === "aosync-session-active" &&
+        event.storageArea === sessionStorage
+      ) {
         const newValue = event.newValue ? JSON.parse(event.newValue) : false;
         setIsSessionActive(newValue);
       }
     };
-  
+
     window.addEventListener("storage", handleStorageChange);
-  
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
@@ -177,6 +180,24 @@ export function AOSyncProvider({
     }
   };
 
+  const getWalletNames = async () => {
+    try {
+      return await walletRef.current.getWalletNames();
+    } catch (error) {
+      console.error("Error getting wallet names:", error);
+      throw error;
+    }
+  };
+
+  const userTokens = async () => {
+    try {
+      return await walletRef.current.userTokens();
+    } catch (error) {
+      console.error("Error getting user tokens:", error);
+      throw error;
+    }
+  };
+
   return (
     <AOSyncContext.Provider
       value={{
@@ -186,6 +207,8 @@ export function AOSyncProvider({
         disconnect,
         getAddress,
         getAllAddresses,
+        getWalletNames,
+        userTokens,
         sendAR,
         signAOMessage,
         sign,

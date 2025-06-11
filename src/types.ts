@@ -1,4 +1,4 @@
-import { DataItem } from "arconnect";
+import { DataItem, UserTokensResult } from "arconnect";
 import Transaction from "arweave/web/lib/transaction";
 
 export interface AOSyncSDKContext {
@@ -9,8 +9,8 @@ export interface AOSyncSDKContext {
   getAllAddresses: () => Promise<string[]>;
   getAddress: () => Promise<string | undefined>;
   sendAR: (recipient: string, quantity: string) => Promise<any>;
-  signAOMessage: (
-    dataItem: DataItem
-  ) => Promise<string>;
+  getWalletNames: () => Promise<{ [addr: string]: string }>;
+  userTokens: () => Promise<UserTokensResult>;
+  signAOMessage: (dataItem: DataItem) => Promise<string>;
   sign: (transaction: Transaction) => Promise<Transaction>;
 }
