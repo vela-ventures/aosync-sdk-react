@@ -55,20 +55,13 @@ export function AOSyncProvider({
   }, []);
 
   useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (
-        event.key === "aosync-session-active" &&
-        event.storageArea === sessionStorage
-      ) {
-        const newValue = event.newValue ? JSON.parse(event.newValue) : false;
-        setIsSessionActive(newValue);
-      }
+    const handleSessionChange = (event: CustomEvent) => {
+      setIsSessionActive(event.detail.isActive);
     };
 
-    window.addEventListener("storage", handleStorageChange);
-
+    window.addEventListener("aosync-session-change", handleSessionChange as EventListener);
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("aosync-session-change", handleSessionChange as EventListener);
     };
   }, []);
 
@@ -189,6 +182,15 @@ export function AOSyncProvider({
     }
   };
 
+  const getWallets = async () => {
+    try {
+      return await walletRef.current.getWallets();
+    } catch (error) {
+      console.error("Error getting wallets:", error);
+      throw error;
+    }
+  };
+
   const userTokens = async () => {
     try {
       return await walletRef.current.userTokens();
@@ -208,6 +210,7 @@ export function AOSyncProvider({
         getAddress,
         getAllAddresses,
         getWalletNames,
+        getWallets,
         userTokens,
         sendAR,
         signAOMessage,
