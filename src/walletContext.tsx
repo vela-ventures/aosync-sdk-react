@@ -200,6 +200,15 @@ export function AOSyncProvider({
     }
   };
 
+  const swapActiveWallet = async (walletAddress: string) => {
+    try {
+      return await walletRef.current.swapActiveWallet(walletAddress);
+    } catch (error) {
+      console.error("Error getting user tokens:", error);
+      throw error;
+    }
+  };
+
   return (
     <AOSyncContext.Provider
       value={{
@@ -214,6 +223,7 @@ export function AOSyncProvider({
         userTokens,
         sendAR,
         signAOMessage,
+        swapActiveWallet,
         sign,
       }}
     >
