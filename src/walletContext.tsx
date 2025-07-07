@@ -204,7 +204,16 @@ export function AOSyncProvider({
     try {
       return await walletRef.current.swapActiveWallet(walletAddress);
     } catch (error) {
-      console.error("Error getting user tokens:", error);
+      console.error("Error swapping wallet:", error);
+      throw error;
+    }
+  };
+
+  const getContacts = async () => {
+    try {
+      return await walletRef.current.getContacts();
+    } catch (error) {
+      console.error("Error getting contacts:", error);
       throw error;
     }
   };
@@ -224,6 +233,7 @@ export function AOSyncProvider({
         sendAR,
         signAOMessage,
         swapActiveWallet,
+        getContacts,
         sign,
       }}
     >

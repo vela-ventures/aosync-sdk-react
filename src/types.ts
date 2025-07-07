@@ -15,5 +15,6 @@ export interface AOSyncSDKContext {
   userTokens: () => Promise<UserTokensResult>;
   signAOMessage: (dataItem: DataItem) => Promise<string>;
   swapActiveWallet: (walletAddress: string) => Promise<string>;
+  getContacts: () => ReturnType<WalletClient['getContacts']>;
   sign: (transaction: Transaction) => Promise<Transaction>;
 }
