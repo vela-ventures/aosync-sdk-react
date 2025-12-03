@@ -29,7 +29,9 @@ export function AOSyncProvider({
   appInfo,
 }: Props) {
   const walletRef = useRef(new WalletClient());
-  const [isConnected, setIsConnected] = useState(!!walletRef?.current?.uid);
+  const [isConnected, setIsConnected] = useState(
+    walletRef?.current?.hasActiveSession() || false
+  );
   const [isSessionActive, setIsSessionActive] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
       const sessionValue = sessionStorage.getItem("aosync-session-active");
