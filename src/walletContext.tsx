@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import Arweave from "arweave";
 import { AppInfo, DataItem, GatewayConfig } from "arconnect";
-import WalletClient from "@vela-ventures/ao-sync-sdk";
+import WalletClient, { ChainType, AccountType, MultiChainWallet, TypedDataParams } from "@vela-ventures/ao-sync-sdk";
 import { AOSyncSDKContext } from "./types";
 import Transaction from "arweave/web/lib/transaction";
 
@@ -40,19 +40,52 @@ export function AOSyncProvider({
     return false;
   });
 
+  // Multi-chain state
+  const [activeChain, setActiveChain] = useState<ChainType | null>(null);
+  const [supportedChains, setSupportedChains] = useState<ChainType[]>([]);
+  const [multiChainAddresses, setMultiChainAddresses] = useState<MultiChainWallet | null>(null);
+  const [accountType, setAccountType] = useState<AccountType | null>(null);
+
   useEffect(() => {
     const wallet = walletRef.current;
     wallet.reconnect();
 
     const handleDisconnect = () => setIsConnected(false);
-    const handleConnect = () => setIsConnected(true);
+    const handleConnect = () => {
+      setIsConnected(true);
+      // Initialize chain state on connection
+      try {
+        setAccountType(wallet.getAccountType());
+        setSupportedChains(wallet.getSupportedChains());
+        setActiveChain(wallet.getActiveChain());
+      } catch (error) {
+        console.error("Error initializing chain state:", error);
+      }
+    };
+
+    const handleChainChanged = (data: any) => {
+      setActiveChain(data.currentChain);
+    };
 
     wallet.on("disconnected", handleDisconnect);
     wallet.on("connected", handleConnect);
+    wallet.on("chainChanged", handleChainChanged);
+
+    // Initialize chain state if already connected
+    if (wallet.hasActiveSession()) {
+      try {
+        setAccountType(wallet.getAccountType());
+        setSupportedChains(wallet.getSupportedChains());
+        setActiveChain(wallet.getActiveChain());
+      } catch (error) {
+        console.error("Error initializing chain state:", error);
+      }
+    }
 
     return () => {
       wallet.off("disconnected", handleDisconnect);
       wallet.off("connected", handleConnect);
+      wallet.off("chainChanged", handleChainChanged);
     };
   }, []);
 
@@ -72,6 +105,7 @@ export function AOSyncProvider({
       await walletRef.current.connect({
         gateway: gatewayConfig,
         appInfo,
+        accountType: "multichain",
       });
     } catch (error) {
       console.error("Error connecting wallet:", error);
@@ -220,22 +254,125 @@ export function AOSyncProvider({
     }
   };
 
+  // Multi-chain methods
+  const switchChain = (chain: ChainType) => {
+    try {
+      walletRef.current.switchChain(chain);
+    } catch (error) {
+      console.error("Error switching chain:", error);
+      throw error;
+    }
+  };
+
+  const getActiveChain = (): ChainType => {
+    try {
+      return walletRef.current.getActiveChain();
+    } catch (error) {
+      console.error("Error getting active chain:", error);
+      throw error;
+    }
+  };
+
+  const getSupportedChains = (): ChainType[] => {
+    try {
+      return walletRef.current.getSupportedChains();
+    } catch (error) {
+      console.error("Error getting supported chains:", error);
+      throw error;
+    }
+  };
+
+  const getMultiChainAddresses = async (): Promise<MultiChainWallet> => {
+    try {
+      const addresses = await walletRef.current.getMultiChainAddresses();
+      setMultiChainAddresses(addresses);
+      return addresses;
+    } catch (error) {
+      console.error("Error getting multi-chain addresses:", error);
+      throw error;
+    }
+  };
+
+  // Universal signing methods
+  const signMessage = async (message: string | Uint8Array): Promise<string> => {
+    try {
+      return await walletRef.current.signMessage(message);
+    } catch (error) {
+      console.error("Error signing message:", error);
+      throw error;
+    }
+  };
+
+  const signTransaction = async (transaction: any): Promise<any> => {
+    try {
+      return await walletRef.current.signTransaction(transaction);
+    } catch (error) {
+      console.error("Error signing transaction:", error);
+      throw error;
+    }
+  };
+
+  const sendTransaction = async (transaction: any): Promise<string> => {
+    try {
+      return await walletRef.current.sendTransaction(transaction);
+    } catch (error) {
+      console.error("Error sending transaction:", error);
+      throw error;
+    }
+  };
+
+  const signTypedData = async (params: TypedDataParams): Promise<string> => {
+    try {
+      return await walletRef.current.signTypedData(params);
+    } catch (error) {
+      console.error("Error signing typed data:", error);
+      throw error;
+    }
+  };
+
   return (
     <AOSyncContext.Provider
       value={{
+        // Connection state
         isConnected,
         isSessionActive,
+
+        // Multi-chain state
+        activeChain,
+        supportedChains,
+        multiChainAddresses,
+        accountType,
+
+        // Connection methods
         connect,
         disconnect,
+
+        // Chain management
+        switchChain,
+        getActiveChain,
+        getSupportedChains,
+        getMultiChainAddresses,
+
+        // Address methods
         getAddress,
         getAllAddresses,
+
+        // Universal signing methods
+        signMessage,
+        signTransaction,
+        sendTransaction,
+        signTypedData,
+
+        // Wallet management
         getWalletNames,
         getWallets,
         userTokens,
-        sendAR,
-        signAOMessage,
         swapActiveWallet,
         getContacts,
+
+        // Legacy Arweave methods
+        sendAR,
+        signAOMessage,
         sign,
       }}
     >
