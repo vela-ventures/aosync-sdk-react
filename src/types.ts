@@ -31,9 +31,9 @@ export interface AOSyncSDKContext {
   getAddress: () => Promise<string | undefined>;
 
   // Universal signing methods
-  signMessage: (message: string | Uint8Array) => Promise<string>;
-  signTransaction: (transaction: any) => Promise<any>;
-  sendTransaction: (transaction: any) => Promise<string>;
+  signMessage: (message: string | Uint8Array, chain?: ChainType) => Promise<string>;
+  signTransaction: (transaction: any, chain?: ChainType) => Promise<any>;
+  sendTransaction: (transaction: any, chain?: ChainType) => Promise<string>;
   signTypedData: (params: TypedDataParams) => Promise<string>;
 
   // Wallet management

@@ -294,27 +294,27 @@ export function AOSyncProvider({
   };
 
   // Universal signing methods
-  const signMessage = async (message: string | Uint8Array): Promise<string> => {
+  const signMessage = async (message: string | Uint8Array, chain?: ChainType): Promise<string> => {
     try {
-      return await walletRef.current.signMessage(message);
+      return await walletRef.current.signMessage(message, chain);
     } catch (error) {
       console.error("Error signing message:", error);
       throw error;
     }
   };
 
-  const signTransaction = async (transaction: any): Promise<any> => {
+  const signTransaction = async (transaction: any, chain?: ChainType): Promise<any> => {
     try {
-      return await walletRef.current.signTransaction(transaction);
+      return await walletRef.current.signTransaction(transaction, chain);
     } catch (error) {
       console.error("Error signing transaction:", error);
       throw error;
     }
   };
 
-  const sendTransaction = async (transaction: any): Promise<string> => {
+  const sendTransaction = async (transaction: any, chain?: ChainType): Promise<string> => {
     try {
-      return await walletRef.current.sendTransaction(transaction);
+      return await walletRef.current.sendTransaction(transaction, chain);
     } catch (error) {
       console.error("Error sending transaction:", error);
       throw error;
