@@ -123,9 +123,9 @@ export function AOSyncProvider({
     }
   };
 
-  const getAddress = async () => {
+  const getAddress = async (chain?: ChainType) => {
     try {
-      return await walletRef.current.getActiveAddress();
+      return await walletRef.current.getActiveAddress(chain);
     } catch (error) {
       console.error("Error getting address:", error);
       throw error;

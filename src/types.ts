@@ -28,7 +28,7 @@ export interface AOSyncSDKContext {
 
   // Address methods
   getAllAddresses: () => Promise<string[]>;
-  getAddress: () => Promise<string | undefined>;
+  getAddress: (chain?: ChainType) => Promise<string | undefined>;
 
   // Universal signing methods
   signMessage: (message: string | Uint8Array, chain?: ChainType) => Promise<string>;
